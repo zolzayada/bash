@@ -1,0 +1,24 @@
+#!/bin/bash
+
+
+# cd
+# mkdir -p test/input/dir{1..2} output
+# touch input/file{1..5} input/dir1/file{6..9} input/dir2/file{5..7}
+
+
+inputDir="input"
+outputDir="output"
+
+subDirs=()
+
+while IFS= read dir; do
+	subDirs+=("$dir")
+done < <(find "$inputDir" -type d)
+
+for dir in "${subDirs[@]}"; do
+    dirName=$(basename "$dir")
+    find "$dir" -maxdepth 1 -type f -exec sh -c "
+        fileName=\$(basename "{}")
+        cp '{}' \"$outputDir/$dirName-\$fileName\"
+    " \;
+done
