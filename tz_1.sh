@@ -14,7 +14,7 @@ files=()
 
 while IFS= read -r dir; do
     sub_dirs+=("$dir")
-done < <(find "$input_dir" -type d)
+done <(find "$input_dir" -type d)
 
 for dir in "${sub_dirs[@]}"; do
     while IFS= read -r file; do
